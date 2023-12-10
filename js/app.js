@@ -1,3 +1,14 @@
+// konversi ke rupiah
+const rupiah = (number) => {
+    return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+    }).format(number);
+};
+
+
+
 document.addEventListener('alpine:init', () => {
     Alpine.data('products', () => ({
         items: [{
@@ -35,13 +46,13 @@ document.addEventListener('alpine:init', () => {
 
     Alpine.store('cart', {
         items: [],
-        total: 0,
         quantity: 0,
+        total: 0,
         add(newItem) {
-            // check apakah ada barang yang sama di cart
+            // cek apakah ada barang yang sama di cart
             const cartItem = this.items.find((item) => item.id === newItem.id);
 
-            // jika belum ada masih kosong
+            // jika belum ada / cart kosong
             if (!cartItem) {
                 this.items.push({
                     ...newItem,
@@ -58,24 +69,24 @@ document.addEventListener('alpine:init', () => {
                         return item;
                     } else {
                         // jika barang sudah ada, tambah quantity dan totalnya
-                        item.quantity += 1;
-                        item.total = item.price * item.quantity;
+                        item.quantity++;
+                        item.total = newItem.price * item.quantity;
                         this.quantity++;
                         this.total += item.price;
                         return item;
                     }
-                });
+                })
             }
         },
         remove(id) {
-            // ambil item remove berdasarkan id
-            const cartItem = this.items.find((item) => item.id);
+            // ambil item yang mau diremove berdasarkan id nya
+            const cartItem = this.items.find((item) => item.id === id);
 
-            // jika lebih dari satu
+            // jika item lebih dari 1
             if (cartItem.quantity > 1) {
                 // telusuri 1 1
                 this.items = this.items.map((item) => {
-                    // jika bukan barang yang diklik
+                    // jika burang bakan yang diclick
                     if (item.id !== id) {
                         return item;
                     } else {
@@ -87,20 +98,59 @@ document.addEventListener('alpine:init', () => {
                     }
                 })
             } else if (cartItem.quantity === 1) {
-                // jika barang sisa 1 
+                // jika barangnya sisa 1
                 this.items = this.items.filter((item) => item.id !== id);
-                this.quantity --;
+                this.quantity--;
                 this.total -= cartItem.price;
             }
-        },
+        }
     });
 });
 
-// conversi mata uang
-const rupiah = (number) => {
-    return new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        minimumFractionDigits: 0,
-    }).format(number);
+
+// form validation
+const checkoutButton = document.querySelector('.checkout-button');
+checkoutButton.disabled = true;
+
+const form = document.querySelector('#checkoutForm');
+
+form.addEventListener('keyup', function () {
+    for (let i = 0; i < form.elements.length; i++) {
+        if (form.elements[i].value.length !== 0) {
+            checkoutButton.classList.remove('disabled');
+            checkoutButton.classList.add('disabled');
+        } else {
+            return false;
+        }
+    }
+    checkoutButton.disabled = false;
+    checkoutButton.classList.remove('disabled');
+});
+
+
+
+
+// kirim data ketika tombol checkout diklik
+checkoutButton.addEventListener('click', async function (e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = new URLSearchParams(formData);
+    const objData = Object.fromEntries(data);
+    const message = formatMessage(objData);
+    window.open('http://wa.me/+6289526814882?text=' + encodeURIComponent(message));
+});
+
+
+
+// format pesan whatsapp
+const formatMessage = (obj) => {
+    return `Data Customer
+    Nama: ${obj.name}
+    Email: ${obj.email}
+    Phone: ${obj.phone}
+    Data Pesanan
+    ${JSON.parse(obj.items).map((item) => `${item.name} (${item.quantity} x ${rupiah(item.total)}) \n`)}
+    Total: ${rupiah(obj.total)}
+    Terima Kasih.`;
 };
+

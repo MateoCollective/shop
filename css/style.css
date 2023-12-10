@@ -3,6 +3,12 @@
 :root {
   --primary: #FAC251;
   --bg: #ffffff;
+  --marquee-width: 80vw;
+  --marquee-height: 20vh;
+  /* --marquee-elements: 12; */ /* defined with JavaScript */
+  --marquee-elements-displayed: 5;
+  --marquee-element-width: calc(var(--marquee-width) / var(--marquee-elements-displayed));
+  --marquee-animation-duration: calc(var(--marquee-elements) * 3s);
 }
 
 * {
@@ -119,6 +125,30 @@ body {
   font-size: 2rem;
   margin: 10px;
   color: var(--bg);
+}
+
+.marquee {
+  width: 100vw;
+  max-width: 100%;
+  overflow-x: hidden;
+    background-color: #000;
+    padding: 20px;
+}
+
+.track {
+
+  white-space: nowrap;
+  will-change: transform;
+  animation: marquee 32s linear infinite;
+  color: white;
+  font-size: 50px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 /* Shopping Cart */
@@ -260,6 +290,11 @@ input {
   border: none;
   cursor: pointer;
   font-size: 1rem;
+}
+
+.form-container .checkout-button.disabled {
+  background-color: #999;
+  cursor: not-allowed;
 }
 
 /* Hover effect for the button */

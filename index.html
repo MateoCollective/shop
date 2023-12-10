@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mahirupaka Shop</title>
+  <title>Vistasees Shop</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,17 +20,21 @@
   <link rel="stylesheet" href="css/style.css">
 
   <!-- Alpine js-->
-          <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-          <!-- App Js -->
-          <script src="js/app.js"></script>
+  <!-- App Js -->
+  <script src="js/app.js" async></script>
+
+
+  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="SB-Mid-client-YqT_PHE13aosnQzL"></script>
 </head>
 
 <body>
 
   <!-- Navbar start -->
   <nav class="navbar" x-data>
-    <a href="#" class="navbar-logo">Mahirupaka Shop.</a>
+    <a href="#" class="navbar-logo">Vistasees Shop.</a>
 
     <div class="navbar-nav">
       <a href="#home">Home</a>
@@ -58,43 +62,45 @@
 
     <!-- Shopping Cart start -->
     <div class="shopping-cart">
-      <template x-for="(item, index) in $store.cart. items" x-keys="index">
-      <div class="cart-item">
-        <img :src="`img/products/${item.img}`" :alt="item.name">
+      <template x-for="(item, index) in $store.cart.items" x-keys="index">
+        <div class="cart-item">
+          <img :src="`img/products/${item.img}`" :alt="item.name">
 
-        <div class="item-detail">
-          <h3 x-text="item.name"></h3>
-          <div class="item-price">
-            <span x-text="rupiah(item.price)"></span> &times;
-              <button id="remove" @click="$store.cart.remove( item.id)">&minus;</button>              
+          <div class="item-detail">
+            <h3 x-text="item.name"></h3>
+            <div class="item-price">
+              <span x-text="rupiah(item.price)"></span> &times;
+              <button id="remove" @click="$store.cart.remove(item.id)">&minus;</button>
               <span x-text="item.quantity"></span>
               <button id="add" @click="$store.cart.add(item)">&plus;</button> &equals;
-            <span x-text="rupiah(item.total)"></span>
+              <span x-text="rupiah(item.total)"></span>
+            </div>
           </div>
         </div>
-      </div>
-    </template>
-    <h4 x-show="!$store.cart.items.length">Cart is empty</h4>
-    <h4 x-show="$store.cart.items.length">Total: <span x-text="rupiah($store.cart.total)"></span> </h4>
+      </template>
+      <h4 x-show="!$store.cart.items.length">Cart is empty</h4>
+      <h4 x-show="$store.cart.items.length">Total: <span x-text="rupiah($store.cart.total)"></span> </h4>
 
-    <div class="form-container" x-show="$store.cart.items.length">
-      <form action="" id="checkoutForm">
-        <h5>Custumer Details</h5>
-        <label for="name">
-          <span>Name</span>
-          <input type="text" name="name" id="name">
-        </label>
-        <label for="email">
-          <span>Email</span>
-          <input type="email" name="email" id="email">
-        </label>
-        <label for="phone">
-          <span>Phone</span>
-          <input type="number" name="phone" id="phone" autocomplete="off">
-        </label>
-        <button class="checkout-button" type="submit" id="checkout-button" value="checkout">Checkout</button>
-      </form>
-    </div>
+      <div class="form-container" x-show="$store.cart.items.length">
+        <form action="" id="checkoutForm">
+          <input type="hidden" name="items" x-model="JSON.stringify($store.cart.items)">
+          <input type="hidden" name="total" x-model="$store.cart.total">
+          <h5>Custumer Details</h5>
+          <label for="name">
+            <span>Name</span>
+            <input type="text" name="name" id="name">
+          </label>
+          <label for="email">
+            <span>Email</span>
+            <input type="email" name="email" id="email">
+          </label>
+          <label for="phone">
+            <span>Phone</span>
+            <input type="number" name="phone" id="phone" autocomplete="off">
+          </label>
+          <button class="checkout-button disabled" type="submit" id="checkout-button" value="checkout">Checkout</button>
+        </form>
+      </div>
     </div>
     <!-- Shopping Cart end -->
 
@@ -110,167 +116,72 @@
       </main>
     </div>
   </section>
+
+
+  <div class="marquee">
+    <div class="track">
+      <div class="content">&nbsp;ygy Infinite Marquee with long sentence Infinite Marquee with long sentence Infinite
+        Marquee with long sentence</div>
+    </div>
+  </div>
+
   <!-- Hero Section end -->
 
   <!-- About Section start -->
-  <section id="about" class="about">
-    <h2><span>Tentang</span> Kami</h2>
 
-    <div class="row">
-      <div class="about-img">
-        <img src="img/products/2.jpg" alt="Tentang Kami">
-      </div>
-      <div class="content">
-        <h3>Kenapa memilih kopi kami?</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ducimus voluptatum dolor. Et, voluptatum
-          accusantium!</p>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic deserunt iure amet facilis eos a quo cum
-          voluptates molestias nihil.</p>
-      </div>
-    </div>
-  </section>
   <!-- About Section end -->
 
-  <!-- Menu Section start -->
-  <section id="menu" class="menu">
-    <h2><span>Menu</span> Kami</h2>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita, repellendus numquam quam tempora voluptatum.
-    </p>
 
-    <div class="row">
-      <div class="menu-card">
-        <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img">
-        <h3 class="menu-card-title">- Espresso -</h3>
-        <p class="menu-card-price">IDR 15K</p>
-      </div>
-      <div class="menu-card">
-        <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img">
-        <h3 class="menu-card-title">- Capuccino -</h3>
-        <p class="menu-card-price">IDR 25K</p>
-      </div>
-      <div class="menu-card">
-        <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img">
-        <h3 class="menu-card-title">- Latte -</h3>
-        <p class="menu-card-price">IDR 20K</p>
-      </div>
-      <div class="menu-card">
-        <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img">
-        <h3 class="menu-card-title">- Espresso -</h3>
-        <p class="menu-card-price">IDR 15K</p>
-      </div>
-      <div class="menu-card">
-        <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img">
-        <h3 class="menu-card-title">- Espresso -</h3>
-        <p class="menu-card-price">IDR 15K</p>
-      </div>
-      <div class="menu-card">
-        <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img">
-        <h3 class="menu-card-title">- Espresso -</h3>
-        <p class="menu-card-price">IDR 15K</p>
-      </div>
-    </div>
-  </section>
-  <!-- Menu Section end -->
 
   <!-- Products Section start -->
   <section class="products" id="products" x-data="products">
-    <h2>PRODUK UNGGULAN KAMI</h2>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo unde eum, ab fuga possimus iste.</p>
+
 
     <div class="row">
       <template x-for="(item, index) in items" x-key="index">
-      <div class="product-card">
-        <div class="product-icons">
-          <a href="#" @click.prevent="$store.cart.add(item)">
-            <svg
-            width="24"
-            height="24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <use href="img/feather-sprite.svg#shopping-cart" />
-          </svg></a>
-          <a href="#" class="item-detail-button"><svg
-            width="24"
-            height="24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <use href="img/feather-sprite.svg#eye" />
-          </svg></a>
-        </div>
-        <div class="product-image">
-          <img :src="`img/products/${item.img}`" :alt="item.name">
-        </div>
-        <div class="product-content">
-          <h3 x-text="item.name"></h3>
-          <div class="product-stars">
-            <svg
-            width="24"
-            height="24"
-            fill="currentColor"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <use href="img/feather-sprite.svg#star" />
-          </svg>
-          <svg
-            width="24"
-            height="24"
-            fill="currentColor"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <use href="img/feather-sprite.svg#star" />
-          </svg>
-          <svg
-            width="24"
-            height="24"
-            fill="currentColor"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <use href="img/feather-sprite.svg#star" />
-          </svg>
-          <svg
-            width="24"
-            height="24"
-            fill="currentColor"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <use href="img/feather-sprite.svg#star" />
-          </svg>
-          <svg
-            width="24"
-            height="24"
-            fill="currentColor"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <use href="img/feather-sprite.svg#star" />
-          </svg>
+        <div class="product-card">
+          <div class="product-icons">
+            <a href="#" @click.prevent="$store.cart.add(item)">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#shopping-cart" />
+              </svg></a>
+            <a href="#" class="item-detail-button"><svg width="24" height="24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#eye" />
+              </svg></a>
           </div>
-          <div class="product-price"><span x-text="rupiah(item.price)"></span></div>
+          <div class="product-image">
+            <img :src="`img/products/${item.img}`" :alt="item.name">
+          </div>
+          <div class="product-content">
+            <h3 x-text="item.name"></h3>
+            <div class="product-stars">
+              <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#star" />
+              </svg>
+              <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#star" />
+              </svg>
+              <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#star" />
+              </svg>
+              <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#star" />
+              </svg>
+              <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#star" />
+              </svg>
+            </div>
+            <div class="product-price"><span x-text="rupiah(item.price)"></span></div>
+          </div>
         </div>
-      </div>
-    </template>
+      </template>
     </div>
   </section>
   <!-- Products Section end -->
@@ -359,6 +270,17 @@
 
   <!-- My Javascript -->
   <script src="js/script.js"></script>
+  <script>
+    const root = document.documentElement;
+    const marqueeElementsDisplayed = getComputedStyle(root).getPropertyValue("--marquee-elements-displayed");
+    const marqueeContent = document.querySelector("ul.marquee-content");
+
+    root.style.setProperty("--marquee-elements", marqueeContent.children.length);
+
+    for (let i = 0; i < marqueeElementsDisplayed; i++) {
+      marqueeContent.appendChild(marqueeContent.children[i].cloneNode(true));
+    }
+  </script>
 </body>
 
 </html>

@@ -1,0 +1,50 @@
+// kirim data ketika tombol checkout diklik
+
+checkoutButton.addEventListener('click', async function (e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = new URLSearchParams(formData);
+    const objData = Object.fromEntries(data);
+    //const message = formatMessage(objData);
+    // window.open('https://wa.me/+6289603428466?text=' + encodeURIComponent(message));
+
+    // minta transaction token menggunakan ajax/fetch
+
+
+
+
+  
+    console.log(objData);
+});
+
+
+const form = document.querySelector('#checkoutForm');
+
+form.addEventListener('keyup', function () {
+    for (let i = 0; i < form.elements.length; i++) {
+        if (form.elements[i].value.length !== 0) {
+            checkoutButton.classList.remove('disabled')
+            checkoutButton.classList.add('disabled')
+        } else {
+            return false;
+        }
+    }
+    checkoutButton.disabled = false;
+    checkoutButton.classList.remove('disabled');
+});
+
+
+// format pesan whatsapp
+
+const formatMessage = (obj) => {
+    return `Data Customer
+    Nama: ${obj.name}
+    Email: ${obj.email}
+    No Hp: ${obj.phone}
+
+Data Pesanan
+
+${JSON.parse(obj.items).map((item) => `${item.name} (${item.quantity} x ${rupiah(item.total)}) \n`)}
+TOTAL ${rupiah(obj.total)}
+Terima Kasih.`;
+};
